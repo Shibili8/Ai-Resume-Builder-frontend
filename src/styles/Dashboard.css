@@ -1,0 +1,41 @@
+.dashboard-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 16px;
+}
+
+.dashboard-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.dashboard-loading,
+.dashboard-error {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.portfolio-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.portfolio-card {
+  flex: 1 1 calc(45% - 10px);
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+}
+
+.visit-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: #0b63f0;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}

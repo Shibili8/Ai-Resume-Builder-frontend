@@ -1,0 +1,56 @@
+/* src/styles/ResumeBuilder.css */
+.rb-root {
+  max-width: 1000px;
+  margin: 18px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+.resume-section { margin-bottom: 18px; }
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.section-title { margin-top: 12px; margin-bottom: 8px; font-weight:600; }
+.section-box { background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom: 10px; border:1px solid #eee; }
+.row-flex { display:flex; gap:10px; }
+.row-flex input, .row-flex select { flex:1; }
+.select-input, input { padding:8px; border-radius:6px; border:1px solid #ddd; }
+.input-label { display:block; margin-bottom:6px; font-weight:600; }
+.add-btn, .btn-secondary, .btn-primary, .btn-mini {
+  margin-top:8px;
+  padding:8px 12px;
+  border-radius:6px;
+  border:none;
+  cursor:pointer;
+}
+.btn-primary { background:#0b63ff; color:#fff; }
+.btn-secondary { background:#e6e6e6; color:#111; }
+.btn-mini { background:#f3f3f3; padding:6px 8px; font-size:13px; }
+
+.project-block { margin-bottom:12px; border:1px dashed #eee; padding:10px; border-radius:8px; }
+.keypoints { margin-top:8px; }
+.kp-list { padding-left:18px; }
+
+/* center button area */
+.center-box { text-align:center; margin-top:20px; }
+
+/* preview-style small tokens */
+.skill-pill { display:inline-block; padding:6px 8px; border-radius:12px; background:#f0f4ff; margin:3px; font-size:13px; }
+.muted { color:#555; font-size:14px; }
+.left-row {
+  text-align: left;
+  margin-top: 4px;
+}
+.education-select-container{
+    outline: none;
+    cursor: pointer;
+    border:1px solid #ddd;
+    color: #555;
+    padding-left: 5px;
+    
+}
