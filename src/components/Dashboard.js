@@ -9,7 +9,7 @@ export default function Dashboard({ api }) {
   useEffect(() => {
     const fetchPortfolios = async () => {
       try {
-        const res = await api.get("/portfolio");
+        const res = await api.get("/portfolio/list");
 
         console.log("API RESPONSE:", res.data);
 
