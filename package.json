@@ -11,11 +11,11 @@
     "swr": "^2.1.2"
   },
   "engines": {
-    "node": "24.x"
+    "node": ">=20"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node node_modules/react-scripts/bin/react-scripts.js build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
