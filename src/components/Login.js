@@ -20,7 +20,7 @@ export default function Login() {
       alert("Login Successful");
       navigate("/home");
     }else{
-      setError(res.data.error)
+      setError("Email or Password are incorrect")
     }
   };
 
