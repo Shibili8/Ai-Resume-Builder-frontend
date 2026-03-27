@@ -9,15 +9,18 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("")
 
   const submit = async () => {
     const res = await api.post("/auth/login", { email, password });
-
+    setError("")
     if (res.data.success) {
       login(res.data.token);
       
       alert("Login Successful");
       navigate("/home");
+    }else{
+      setError(res.data.error)
     }
   };
 
@@ -38,6 +41,7 @@ export default function Login() {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error !==""? <p className="text-red">{error}</p>:null}
 
         <button
           className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
