@@ -7,25 +7,28 @@ export default function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const submit = async () => {
     // Validate empty fields
-    setError("")
     if (!email || !password) {
       setError("Please enter email and password");
       return;
     }
 
     try {
+      setLoading(true);
+
       const res = await api.post("/auth/login", {
         email,
         password,
       });
 
-      // Clear previous errors
       setError("");
 
       if (res.data.success) {
@@ -41,17 +44,20 @@ export default function Login() {
     } catch (err) {
       console.error(err);
 
-      // Handle backend errors
       if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else {
         setError("Login failed. Please try again.");
       }
+
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+
       <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
 
         <h2 className="text-2xl font-bold mb-4 text-center">
@@ -67,14 +73,28 @@ export default function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        {/* Password Input */}
-        <input
-          className="w-full p-3 border rounded-lg mb-4"
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        {/* Password Input with Toggle */}
+        <div className="relative mb-4">
+
+          <input
+            className="w-full p-3 border rounded-lg"
+            placeholder="Password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button
+            type="button"
+            onClick={() =>
+              setShowPassword(!showPassword)
+            }
+            className="absolute right-3 top-3 text-sm text-blue-600 hover:underline"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+
+        </div>
 
         {/* Error Message */}
         {error && (
@@ -85,11 +105,11 @@ export default function Login() {
 
         {/* Login Button */}
         <button
-          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
           onClick={submit}
-          disabled={!email || !password}
+          disabled={loading}
+          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         {/* Register Link */}
@@ -104,6 +124,7 @@ export default function Login() {
         </p>
 
       </div>
+
     </div>
   );
 }

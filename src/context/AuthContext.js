@@ -3,45 +3,62 @@ import React, { createContext, useEffect, useState } from "react";
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("authToken") || "");
-  const [loading, setLoading] = useState(false);
+
+  const [token, setToken] = useState(
+    localStorage.getItem("authToken") || null
+  );
+
+  const [loading, setLoading] = useState(true);
+
   const [user, setUser] = useState(null);
 
-  // Save token in localStorage
+  // Login function
   const login = (jwtToken, userData = null) => {
     setToken(jwtToken);
     localStorage.setItem("authToken", jwtToken);
-    setUser(userData);
+
+    if (userData) {
+      setUser(userData);
+    }
   };
 
-  // Clear token
+  // Logout function
   const logout = () => {
-    setToken("");
-    localStorage.removeItem("authToken");
+    setToken(null);
     setUser(null);
+
+    localStorage.removeItem("authToken");
   };
 
-  // Keep user logged in on refresh (optional)
+  // Keep user logged in after refresh
   useEffect(() => {
-    const storedToken = localStorage.getItem("authToken");
-    if (storedToken) setToken(storedToken);
+
+    const storedToken =
+      localStorage.getItem("authToken");
+
+    if (storedToken) {
+      setToken(storedToken);
+    }
+
+    setLoading(false);
+
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
         token,
-        setToken,
         login,
         logout,
         user,
         loading,
-        setLoading,
+        setLoading
       }}
     >
       {children}
     </AuthContext.Provider>
   );
+
 };
 
 export default AuthProvider;
