@@ -16,6 +16,7 @@ export default function Login() {
 
   const submit = async () => {
     // Validate empty fields
+    setError("")
     if (!email || !password) {
       setError("Please enter email and password");
       return;
@@ -89,7 +90,7 @@ export default function Login() {
             onClick={() =>
               setShowPassword(!showPassword)
             }
-            className="absolute right-3 bg-transparent top-3 text-sm text-blue-600 hover:underline"
+            className="absolute right-3 bg-transparent top-3 text-sm text-blue-600"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
