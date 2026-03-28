@@ -13,6 +13,7 @@ export default function Login() {
 
   const submit = async () => {
     // Validate empty fields
+    setError("")
     if (!email || !password) {
       setError("Please enter email and password");
       return;
