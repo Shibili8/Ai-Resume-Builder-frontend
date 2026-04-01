@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import api from "../api"; // ✅ Import directly
 
-export default function Dashboard({ api }) {
+export default function Dashboard() {
 
   const [data, setData] = useState([]);
 
@@ -23,25 +24,7 @@ export default function Dashboard({ api }) {
           res.data
         );
 
-        // ✅ FIX — handle response safely
-
-        if (Array.isArray(res.data)) {
-
-          setData(res.data);
-
-        }
-
-        else if (Array.isArray(res.data.data)) {
-
-          setData(res.data.data);
-
-        }
-
-        else {
-
-          setData([]);
-
-        }
+        setData(res.data || []);
 
       } catch (err) {
 
@@ -62,7 +45,7 @@ export default function Dashboard({ api }) {
 
     fetchPortfolios();
 
-  }, [api]);
+  }, []);
 
   if (error)
 

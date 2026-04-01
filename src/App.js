@@ -57,14 +57,7 @@ export default function App() {
           }
         />
 
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard api={api} />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
 
         <Route
           path="/preview"
