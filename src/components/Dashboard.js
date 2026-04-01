@@ -15,9 +15,9 @@ export default function Dashboard() {
     const fetchPortfolios = async () => {
 
       try {
-
+        console.log("Component Reached")
         const res =
-          await api.get("/portfolio/list");
+          await api.get("/portfolio");
 
         console.log(
           "API RESPONSE:",
