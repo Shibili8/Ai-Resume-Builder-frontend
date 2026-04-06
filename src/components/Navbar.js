@@ -14,7 +14,7 @@ export default function Navbar() {
         
         <h1 
           className="text-xl font-semibold text-gray-900 cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         >
           AI Resume Builder
         </h1>
