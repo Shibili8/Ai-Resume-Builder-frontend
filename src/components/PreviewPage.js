@@ -265,11 +265,6 @@ export default function PreviewPage() {
         </div>
 
       </div>
-
-
-
-{/* ================= EXISTING RESUME UI ================= */}
-
-{/* KEEP YOUR EXISTING UI BELOW THIS — NO CHANGE NEEDED */}
-
-      {/* Your existing resume layout stays exactly the same */}
+    </div>
+  )
+}
