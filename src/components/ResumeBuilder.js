@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../api";
 
 import PersonalDetailsSection from "./ResumeSections/PersonalDetailsSection";
@@ -37,7 +37,7 @@ const qualificationList = [
 
 const ResumeBuilder = () => {
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const [form, setForm] = useState({
   name: "",
   emailId: "",
@@ -99,6 +99,34 @@ const ResumeBuilder = () => {
   const [hasProjects, setHasProjects] = useState(false);
   const [hasCertificates, setHasCertificates] = useState(false);
 
+    useEffect(() => {
+
+  if (!id) return;
+
+  const fetchResume = async () => {
+
+    try {
+
+      const res =
+        await api.get(`/portfolio/${id}`);
+
+      setForm(res.data);
+
+      if (res.data.summary) {
+        setSummary(res.data.summary);
+      }
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+
+  };
+
+  fetchResume();
+
+}, [id]);
   // ----------------------------------------------------------------
   // HELPERS
   // ----------------------------------------------------------------
@@ -446,31 +474,65 @@ form.education.forEach((edu, i) => {
 
 
   const saveResumeHandler = async () => {
-  // Run validation
-  const missing = validateRequiredFields();
+
+  const missing =
+    validateRequiredFields();
 
   if (missing.length > 0) {
+
     alert(
       "Please fill all required fields:\n\n" +
       missing.map((m) => "• " + m).join("\n")
     );
-    return; // STOP saving
+
+    return;
+
   }
 
   try {
+
     setLoading(true);
-    const res = await api.post("/portfolio", form);
 
-    if (res.data?.success) alert("✅ Resume saved successfully!");
-    else alert("❌ Save failed.");
+    let res;
+
+    if (id) {
+
+      // UPDATE
+
+      res =
+        await api.put(
+          `/portfolio/${id}`,
+          form
+        );
+
+    } else {
+
+      // CREATE
+
+      res =
+        await api.post(
+          "/portfolio",
+          form
+        );
+
+    }
+
+    if (res.data?.success)
+      alert("✅ Resume saved successfully!");
+
   } catch (err) {
-    console.error("SAVE ERROR:", err.response?.data || err.message);
-    alert("❌ Error saving resume.");
-  } finally {
-    setLoading(false);
-  }
-};
 
+    console.error(err);
+
+    alert("❌ Save failed.");
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
 
   // ----------------------------------------------------------------
   // RENDER

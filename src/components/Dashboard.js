@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import api from "../api"; // ✅ Import directly
 
@@ -9,6 +10,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -77,6 +79,37 @@ export default function Dashboard() {
 
     );
 
+    const handlePreview = (id) => {
+  navigate(`/preview/${id}`);
+};
+
+const handleEdit = (id) => {
+  navigate(`/builder/${id}`);
+};
+
+const handleDelete = async (id) => {
+
+  if (!window.confirm("Delete this resume?"))
+    return;
+
+  try {
+
+    await api.delete(`/portfolio/${id}`);
+
+    setData(
+      data.filter((p) => p._id !== id)
+    );
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("Delete failed");
+
+  }
+
+};
+
   return (
 
     <>
@@ -103,7 +136,8 @@ export default function Dashboard() {
 
               <div
                 key={p._id}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-200"
+                className="bg-white p-6 rounded-xl shadow-md border border-gray-200 cursor-pointer hover:shadow-lg transition"
+                onClick={() => handlePreview(p._id)}
               >
 
                 <h3 className="text-xl font-bold">
@@ -111,18 +145,37 @@ export default function Dashboard() {
                 </h3>
 
                 <p className="text-gray-600 mt-2">
-
-                  Created:{" "}
-
+                  Created:
                   {p.createdAt
-
-                    ? new Date(
-                        p.createdAt
-                      ).toLocaleDateString()
-
+                    ? new Date(p.createdAt).toLocaleDateString()
                     : "N/A"}
-
                 </p>
+
+                {/* Buttons */}
+
+                <div className="flex gap-3 mt-4">
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEdit(p._id);
+                    }}
+                    className="px-3 py-1 bg-blue-500 text-white rounded"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(p._id);
+                    }}
+                    className="px-3 py-1 bg-red-500 text-white rounded"
+                  >
+                    Delete
+                  </button>
+
+                </div>
 
               </div>
 

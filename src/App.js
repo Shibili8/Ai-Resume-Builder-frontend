@@ -67,6 +67,15 @@ export default function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/preview/:id"
+          element={<PreviewPage />}
+        />
+
+        <Route
+          path="/builder/:id"
+          element={<ResumeBuilder />}
+        />
 
       </Routes>
 
