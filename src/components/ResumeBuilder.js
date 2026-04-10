@@ -95,6 +95,8 @@ const ResumeBuilder = () => {
   const [gensummary, setSummary] = useState("");
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
+  const [cooldownTime, setCooldownTime] = useState(0);
   const [hasExperience, setHasExperience] = useState(false);
   const [hasProjects, setHasProjects] = useState(false);
   const [hasCertificates, setHasCertificates] = useState(false);
@@ -114,6 +116,7 @@ const ResumeBuilder = () => {
 
       if (res.data.summary) {
         setSummary(res.data.summary);
+        setForm(res.data);
       }
 
       if (res.data.experience?.length > 0)
@@ -212,22 +215,94 @@ Write a professional resume summary for a ${form.role || "professional"} with ${
   };
 
   const generateSummary = async () => {
-    setLoading(true);
-    try {
-      const prompt = buildPrompt();
-      const res = await api.post("/ai/generate", { prompt });
-      const summary =
-        res.data?.summary ?? res.data?.result ?? res.data?.data ?? "";
-      setSummary(summary);
-      return summary;
-    } catch (err) {
-      console.error("AI generation error:", err.response?.data || err.message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  };
 
+  // 🚫 Prevent spam clicks
+  if (cooldown) {
+
+    alert(
+      `Please wait ${cooldownTime}s before generating again.`
+    );
+
+    return;
+
+  }
+
+  setLoading(true);
+
+  try {
+
+    const prompt = buildPrompt();
+
+    const res =
+      await api.post(
+        "/ai/generate",
+        { prompt }
+      );
+
+    const summary =
+      res.data?.summary ??
+      res.data?.result ??
+      res.data?.data ??
+      "";
+
+    console.log(
+      "Generated Summary:",
+      summary
+    );
+
+    setSummary(summary);
+
+    // Save inside form also
+    setForm(prev => ({
+      ...prev,
+      summary: summary
+    }));
+
+
+    // 🚀 Start cooldown timer
+
+    setCooldown(true);
+    setCooldownTime(30); // 30 seconds
+
+
+    const timer = setInterval(() => {
+
+      setCooldownTime(prev => {
+
+        if (prev <= 1) {
+
+          clearInterval(timer);
+          setCooldown(false);
+          return 0;
+
+        }
+
+        return prev - 1;
+
+      });
+
+    }, 1000);
+
+
+    return summary;
+
+  } catch (err) {
+
+    console.error(
+      "AI generation error:",
+      err.response?.data ||
+      err.message
+    );
+
+    alert("AI generation failed");
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
   // ----------------------------------------------------------------
   // PREVIEW HTML BUILDER (BACKEND PDF + FRONTEND PREVIEW)
   // ----------------------------------------------------------------
@@ -507,12 +582,19 @@ form.education.forEach((edu, i) => {
 
     setLoading(true);
 
-    let res;
+    // ✅ Create payload with summary
 
     const payload = {
-      ...form,
-      summary: gensummary
-    };
+  ...form,
+  summary: gensummary || form.summary || ""
+};
+
+    console.log(
+      "Saving Resume Payload:",
+      payload
+    );
+
+    let res;
 
     if (id) {
 
@@ -542,6 +624,7 @@ form.education.forEach((edu, i) => {
         "✅ Resume saved successfully!"
       );
 
+      navigate("/dashboard");
 
     }
 
@@ -551,7 +634,7 @@ form.education.forEach((edu, i) => {
 
     alert(
       err.response?.data?.error ||
-      "❌ Save failed."
+      "Save failed"
     );
 
   } finally {
