@@ -509,37 +509,38 @@ form.education.forEach((edu, i) => {
 
     let res;
 
+    const payload = {
+      ...form,
+      summary: gensummary
+    };
+
     if (id) {
 
-      // UPDATE EXISTING
+      // UPDATE
 
       res =
         await api.put(
           `/portfolio/${id}`,
-          {
-            ...form,
-            summary: gensummary
-          }
+          payload
         );
 
     } else {
 
-      // CREATE NEW
+      // CREATE
 
       res =
         await api.post(
           "/portfolio",
-          {
-            ...form,
-            summary: gensummary
-          }
+          payload
         );
 
     }
 
     if (res.data?.success) {
 
-      alert("✅ Resume saved successfully!");
+      alert(
+        "✅ Resume saved successfully!"
+      );
 
       navigate("/dashboard");
 
@@ -549,7 +550,10 @@ form.education.forEach((edu, i) => {
 
     console.error(err);
 
-    alert("❌ Save failed.");
+    alert(
+      err.response?.data?.error ||
+      "❌ Save failed."
+    );
 
   } finally {
 
