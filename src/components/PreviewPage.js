@@ -384,11 +384,11 @@ export default function PreviewPage() {
 
         {/* ✅ CGPA Display */}
 
-        {edu.cgpa && (
+        {edu.score && (
 
           <div>
 
-            CGPA: {edu.cgpa}
+            {edu.scoreType}: {edu.cgpa}
 
           </div>
 
