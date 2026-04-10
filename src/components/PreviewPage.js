@@ -207,64 +207,235 @@ export default function PreviewPage() {
 
   return (
 
-    <div
-      style={{
-        width: "794px",
-        minHeight: "1123px",
-        margin: "20px auto",
-        padding: "40px",
-        background: "white",
-        boxShadow:
-          "0 0 10px rgba(0,0,0,0.15)",
-        fontFamily: "Arial",
-      }}
-    >
-
+  <div
+    style={{
+      width: "794px",
+      minHeight: "1123px",
+      margin: "20px auto",
+      padding: "40px",
+      background: "white",
+      boxShadow:
+        "0 0 10px rgba(0,0,0,0.15)",
+      fontFamily: "Arial",
+    }}
+  >
 
 {/* ================= BUTTON BAR ================= */}
 
-      <div className="flex justify-between mb-6 items-center">
+<div className="flex justify-between mb-6 items-center">
 
-        <button
-          onClick={() =>
-            navigate("/dashboard")
-          }
-          className="px-4 py-2 bg-gray-600 text-white rounded-lg"
+  <button
+    onClick={() =>
+      navigate("/dashboard")
+    }
+    className="px-4 py-2 bg-gray-600 text-white rounded-lg"
+  >
+    ⬅ Back
+  </button>
+
+  <div className="flex gap-3">
+
+    <button
+      onClick={handleEdit}
+      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+    >
+      ✏ Edit
+    </button>
+
+    <button
+      onClick={handleDelete}
+      className="px-4 py-2 bg-red-500 text-white rounded-lg"
+    >
+      🗑 Delete
+    </button>
+
+    <button
+      onClick={exportPDF}
+      className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+    >
+      {pdfLoading
+        ? "Exporting..."
+        : "📄 Export PDF"}
+    </button>
+
+  </div>
+
+</div>
+
+
+{/* ================= HEADER ================= */}
+
+<div
+  style={{
+    textAlign: "center",
+    marginBottom: "20px"
+  }}
+>
+
+  <h1
+    style={{
+      margin: 0,
+      fontWeight:"600",
+      fontSize:"20px",
+      color:"#1d59b5"
+    }}
+  >
+    {form.name}
+  </h1>
+
+  <h3 style={{ margin: 0 }}>
+    {form.role}
+  </h3>
+
+  <p
+    style={{
+      marginTop:"10px",
+      fontSize:"14px"
+    }}
+  >
+    {form.city},
+    {form.state},
+    {form.pincode}
+    {" | "}
+    {form.emailId}
+    {" | "}
+    {form.phoneNo}
+    {" | "}
+    {form.linkedIn}
+    {" | "}
+    {form.portfolioLink}
+  </p>
+
+</div>
+
+
+{/* ================= SUMMARY ================= */}
+
+{gensummary && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    SUMMARY
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  <p>{gensummary}</p>
+</>
+
+)}
+
+
+{/* ================= EDUCATION ================= */}
+
+{form.education?.length > 0 && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    EDUCATION
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  {form.education.map(
+    (edu,index)=>(
+      <div
+        key={index}
+        style={{
+          marginBottom:"12px"
+        }}
+      >
+
+        <div
+          style={{
+            display:"flex",
+            justifyContent:"space-between",
+            fontWeight:600
+          }}
         >
-          ⬅ Back
-        </button>
 
+          <span>
+            {edu.institute}
+          </span>
 
-        <div className="flex gap-3">
+          <span>
+            {edu.startYear}
+            {" - "}
+            {edu.endYear}
+          </span>
 
-          <button
-            onClick={handleEdit}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-          >
-            ✏ Edit
-          </button>
+        </div>
 
+        <div>
 
-          <button
-            onClick={handleDelete}
-            className="px-4 py-2 bg-red-500 text-white rounded-lg"
-          >
-            🗑 Delete
-          </button>
-
-
-          <button
-            onClick={exportPDF}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-          >
-            {pdfLoading
-              ? "Exporting..."
-              : "📄 Export PDF"}
-          </button>
+          {edu.eduType}
+          {" "}
+          {edu.department}
 
         </div>
 
       </div>
-    </div>
-  )
+    )
+  )}
+
+</>
+
+)}
+
+
+{/* ================= SKILLS ================= */}
+
+{form.skills?.length > 0 && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    SKILLS
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  <p>
+    {form.skills.join(", ")}
+  </p>
+
+</>
+
+)}
+
+</div>
+
+);
 }
