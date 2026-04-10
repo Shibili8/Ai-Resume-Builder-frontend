@@ -322,6 +322,103 @@ export default function PreviewPage() {
 
 )}
 
+{/* ================= EXPERIENCE ================= */}
+
+{form.experience?.length > 0 && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    EXPERIENCE
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  {form.experience
+    .filter(exp => exp.role || exp.company)
+    .map((exp,index)=>(
+      <div
+        key={index}
+        style={{
+          marginBottom:"12px"
+        }}
+      >
+
+        <div
+          style={{
+            display:"flex",
+            justifyContent:"space-between",
+            fontWeight:600
+          }}
+        >
+
+          <span>
+            {exp.role}
+          </span>
+
+          <span>
+            {exp.duration} Year
+          </span>
+
+        </div>
+
+        <div>
+          {exp.company}
+        </div>
+
+        {exp.activities && (
+          <p>{exp.activities}</p>
+        )}
+
+      </div>
+    ))}
+
+</>
+
+)}
+
+{/* ================= SKILLS ================= */}
+
+{form.skills?.length > 0 && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    SKILLS
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  <p>
+    {form.skills.join(", ")}
+  </p>
+
+</>
+
+)}
+
+
+
 
 {/* ================= EDUCATION ================= */}
 
@@ -407,10 +504,9 @@ export default function PreviewPage() {
 
 )}
 
+{/* ================= CERTIFICATES ================= */}
 
-{/* ================= SKILLS ================= */}
-
-{form.skills?.length > 0 && (
+{form.certificates?.length > 0 && (
 
 <>
   <h2
@@ -420,7 +516,7 @@ export default function PreviewPage() {
       fontSize:"16px"
     }}
   >
-    SKILLS
+    CERTIFICATES
   </h2>
 
   <hr
@@ -430,13 +526,187 @@ export default function PreviewPage() {
     }}
   />
 
-  <p>
-    {form.skills.join(", ")}
-  </p>
+  {form.certificates
+    .filter(c => c.title)
+    .map((c,index)=>(
+      <div
+        key={index}
+        style={{
+          marginBottom:"10px"
+        }}
+      >
+
+        <div
+          style={{
+            display:"flex",
+            justifyContent:"space-between",
+            fontWeight:600
+          }}
+        >
+
+          <span>
+            {c.title}
+          </span>
+
+          <span>
+            {c.issuedOn}
+          </span>
+
+        </div>
+
+        <div>
+          {c.issuedBy}
+        </div>
+
+      </div>
+    ))}
 
 </>
 
 )}
+
+{/* ================= PROJECTS ================= */}
+
+{form.projects?.length > 0 && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    PROJECTS
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  {form.projects
+    .filter(p => p.name)
+    .map((p,index)=>(
+      <div
+        key={index}
+        style={{
+          marginBottom:"12px"
+        }}
+      >
+
+        <div
+          style={{
+            display:"flex",
+            justifyContent:"space-between",
+            fontWeight:600
+          }}
+        >
+
+          <span>
+            {p.name}
+          </span>
+
+          {p.link && (
+            <a
+              href={p.link}
+              target="_blank"
+            >
+              Live Demo
+            </a>
+          )}
+
+        </div>
+
+        {p.description && (
+          <p>{p.description}</p>
+        )}
+
+        {p.technologies && (
+          <p>
+            <strong>Tech Used:</strong>{" "}
+            {p.technologies}
+          </p>
+        )}
+
+      </div>
+    ))}
+
+</>
+
+)}
+
+{/* ================= ADDITIONAL ================= */}
+
+{(form.languages?.length > 0 ||
+  form.nationality ||
+  form.availabilityType) && (
+
+<>
+  <h2
+    style={{
+      fontWeight:"600",
+      color:"#1d59b5",
+      fontSize:"16px"
+    }}
+  >
+    ADDITIONAL INFORMATION
+  </h2>
+
+  <hr
+    style={{
+      border:"1px solid",
+      marginBottom:"10px"
+    }}
+  />
+
+  {/* Languages */}
+
+  {form.languages?.length > 0 && (
+
+    <div>
+
+      <strong>Languages:</strong>{" "}
+
+      {form.languages
+        .filter(l => l.language)
+        .map((l,index)=>{
+
+          const levels=[];
+
+          if(l.read) levels.push("Read");
+          if(l.write) levels.push("Write");
+          if(l.speak) levels.push("Speak");
+
+          return `${l.language} (${levels.join(", ")})`;
+
+        })
+        .join(", ")}
+
+    </div>
+
+  )}
+
+  {form.nationality && (
+    <div>
+      <strong>Nationality:</strong>{" "}
+      {form.nationality}
+    </div>
+  )}
+
+  {form.availabilityType && (
+    <div>
+      <strong>Availability:</strong>{" "}
+      {form.availabilityType}
+    </div>
+  )}
+
+</>
+
+)}
+
 
 </div>
 
