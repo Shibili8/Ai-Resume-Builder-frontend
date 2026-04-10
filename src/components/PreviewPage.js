@@ -374,16 +374,20 @@ export default function PreviewPage() {
 
         </div>
 
-        <div>
-
+        <div style={{
+            display:"flex",
+            justifyContent:"space-between",
+            fontWeight:600
+          }}>
+         <div>
           {edu.eduType}
           {" "}
           {edu.department}
 
-        </div>
+          </div>
 
         {/* ✅ CGPA Display */}
-
+          <div>
         {edu.score && (
 
           <div>
@@ -393,6 +397,8 @@ export default function PreviewPage() {
           </div>
 
         )}
+        </div>
+        </div>
 
       </div>
     )
