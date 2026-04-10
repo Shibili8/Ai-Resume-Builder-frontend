@@ -382,6 +382,18 @@ export default function PreviewPage() {
 
         </div>
 
+        {/* ✅ CGPA Display */}
+
+        {edu.cgpa && (
+
+          <div>
+
+            CGPA: {edu.cgpa}
+
+          </div>
+
+        )}
+
       </div>
     )
   )}
