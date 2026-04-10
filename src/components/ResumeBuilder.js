@@ -99,7 +99,7 @@ const ResumeBuilder = () => {
   const [hasProjects, setHasProjects] = useState(false);
   const [hasCertificates, setHasCertificates] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
 
   if (!id) return;
 
@@ -115,6 +115,15 @@ const ResumeBuilder = () => {
       if (res.data.summary) {
         setSummary(res.data.summary);
       }
+
+      if (res.data.experience?.length > 0)
+        setHasExperience(true);
+
+      if (res.data.projects?.length > 0)
+        setHasProjects(true);
+
+      if (res.data.certificates?.length > 0)
+        setHasCertificates(true);
 
     } catch (err) {
 
@@ -406,7 +415,12 @@ Write a professional resume summary for a ${form.role || "professional"} with ${
   const handlePreview = () => {
     if (!gensummary) return alert("Please generate a summary first!");
     const previewHtml = buildPreviewHtml(gensummary);
-    navigate("/preview", { state: { form, gensummary, previewHtml } });
+    navigate("/preview", {
+  state: {
+    form,
+    gensummary
+  }
+});
   };
 
   const validateRequiredFields = () => {
@@ -473,7 +487,7 @@ form.education.forEach((edu, i) => {
 
 
 
-  const saveResumeHandler = async () => {
+ const saveResumeHandler = async () => {
 
   const missing =
     validateRequiredFields();
@@ -497,28 +511,39 @@ form.education.forEach((edu, i) => {
 
     if (id) {
 
-      // UPDATE
+      // UPDATE EXISTING
 
       res =
         await api.put(
           `/portfolio/${id}`,
-          form
+          {
+            ...form,
+            summary: gensummary
+          }
         );
 
     } else {
 
-      // CREATE
+      // CREATE NEW
 
       res =
         await api.post(
           "/portfolio",
-          form
+          {
+            ...form,
+            summary: gensummary
+          }
         );
 
     }
 
-    if (res.data?.success)
+    if (res.data?.success) {
+
       alert("✅ Resume saved successfully!");
+
+      navigate("/dashboard");
+
+    }
 
   } catch (err) {
 
