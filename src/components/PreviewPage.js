@@ -376,8 +376,7 @@ export default function PreviewPage() {
 
         <div style={{
             display:"flex",
-            justifyContent:"space-between",
-            fontWeight:300
+            justifyContent:"space-between"
           }}>
          <div>
           {edu.eduType}
