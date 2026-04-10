@@ -624,7 +624,6 @@ form.education.forEach((edu, i) => {
         "✅ Resume saved successfully!"
       );
 
-      navigate("/dashboard");
 
     }
 
