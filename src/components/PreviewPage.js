@@ -388,7 +388,7 @@ export default function PreviewPage() {
 
           <div>
 
-            {edu.scoreType}: {edu.cgpa}
+            {edu.scoreType}: {edu.score}
 
           </div>
 
