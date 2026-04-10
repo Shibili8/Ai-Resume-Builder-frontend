@@ -236,20 +236,6 @@ export default function PreviewPage() {
   <div className="flex gap-3">
 
     <button
-      onClick={handleEdit}
-      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-    >
-      ✏ Edit
-    </button>
-
-    <button
-      onClick={handleDelete}
-      className="px-4 py-2 bg-red-500 text-white rounded-lg"
-    >
-      🗑 Delete
-    </button>
-
-    <button
       onClick={exportPDF}
       className="px-4 py-2 bg-blue-600 text-white rounded-lg"
     >
