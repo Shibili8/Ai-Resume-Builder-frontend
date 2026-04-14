@@ -98,6 +98,56 @@ export default function PreviewPage() {
 
   }
 
+  /* ================= SECTION CHECKERS ================= */
+
+  const hasExperience =
+  form.experience?.some(
+    e => e.role || e.company
+  );
+
+const hasProjects =
+  form.projects?.some(
+    p => p.name
+  );
+
+const hasCertificates =
+  form.certificates?.some(
+    c => c.title
+  );
+
+const hasSkills =
+  form.skills?.some(
+    s => s
+  );
+
+const hasLanguages =
+  form.languages?.some(
+    l => l.language
+  );
+
+const hasAdditional =
+  hasLanguages ||
+  form.nationality ||
+  form.availabilityType;
+
+/* ================= PERSONAL INFO ================= */
+
+  const personalInfo = [
+
+  `${form.city || ""}${
+    form.state ? ", " + form.state : ""
+  }${
+    form.pincode ? ", " + form.pincode : ""
+  }`,
+
+  form.emailId,
+  form.phoneNo,
+  form.linkedIn,
+  form.portfolioLink
+
+].filter(Boolean).join(" | ");
+
+
 
 
   // ================= PDF EXPORT =================
@@ -251,46 +301,27 @@ export default function PreviewPage() {
 
 {/* ================= HEADER ================= */}
 
-<div
-  style={{
-    textAlign: "center",
-    marginBottom: "20px"
-  }}
->
+<div style={{
+textAlign:"center",
+marginBottom:"20px"
+}}>
 
-  <h1
-    style={{
-      margin: 0,
-      fontWeight:"600",
-      fontSize:"20px",
-      color:"#1d59b5"
-    }}
-  >
-    {form.name}
-  </h1>
+<h1 style={{
+margin:0,
+fontWeight:"600",
+fontSize:"20px",
+color:"#1d59b5"
+}}>
+{form.name}
+</h1>
 
-  <h3 style={{ margin: 0 }}>
-    {form.role}
-  </h3>
+<h3>{form.role}</h3>
 
-  <p
-    style={{
-      marginTop:"10px",
-      fontSize:"14px"
-    }}
-  >
-    {form.city},
-    {form.state},
-    {form.pincode}
-    {" | "}
-    {form.emailId}
-    {" | "}
-    {form.phoneNo}
-    {" | "}
-    {form.linkedIn}
-    {" | "}
-    {form.portfolioLink}
-  </p>
+<p style={{
+fontSize:"14px"
+}}>
+{personalInfo}
+</p>
 
 </div>
 
@@ -324,9 +355,9 @@ export default function PreviewPage() {
 
 {/* ================= EXPERIENCE ================= */}
 
-{form.experience?.length > 0 && (
+{hasExperience && (
 
-<div>
+<>
   <h2
     style={{
       fontWeight:"600",
@@ -383,13 +414,13 @@ export default function PreviewPage() {
       </div>
     ))}
 
-</div>
+</>
 
 )}
 
 {/* ================= SKILLS ================= */}
 
-{form.skills?.length > 0 && (
+{hasSkills && (
 
 <>
   <h2
@@ -506,7 +537,7 @@ export default function PreviewPage() {
 
 {/* ================= CERTIFICATES ================= */}
 
-{form.certificates?.length > 0 && (
+{hasCertificates&& (
 
 <>
   <h2
@@ -567,7 +598,7 @@ export default function PreviewPage() {
 
 {/* ================= PROJECTS ================= */}
 
-{form.projects?.length > 0 && (
+{hasProjects && (
 
 <>
   <h2
@@ -640,9 +671,7 @@ export default function PreviewPage() {
 
 {/* ================= ADDITIONAL ================= */}
 
-{(form.languages?.length > 0 ||
-  form.nationality ||
-  form.availabilityType) && (
+{hasAdditional&& (
 
 <>
   <h2
@@ -664,7 +693,7 @@ export default function PreviewPage() {
 
   {/* Languages */}
 
-  {form.languages?.length > 0 && (
+  {hasLanguages && (
 
     <div>
 
