@@ -12,19 +12,14 @@ import api from "../api";
 export default function PreviewPage() {
 
   const navigate = useNavigate();
-
   const { state } = useLocation();
-
   const { id } = useParams();
 
-  const [form, setForm] = useState(
-    state?.form || null
-  );
+  const [form, setForm] =
+    useState(state?.form || null);
 
   const [gensummary, setSummary] =
-    useState(
-      state?.gensummary || ""
-    );
+    useState(state?.gensummary || "");
 
   const [pdfLoading,
     setPdfloading
@@ -32,267 +27,245 @@ export default function PreviewPage() {
 
 
 
-  // 🚀 Load data if opened from Dashboard
+/* ================= LOAD DATA ================= */
 
-  useEffect(() => {
+useEffect(() => {
 
-    if (!form && id) {
+  if (!form && id) {
 
-      const fetchResume =
-        async () => {
+    const fetchResume =
+      async () => {
 
-          try {
+        try {
 
-            const res =
-              await api.get(
-                `/portfolio/${id}`
-              );
+          const res =
+            await api.get(`/portfolio/${id}`);
 
-            setForm(res.data);
+          setForm(res.data);
 
-            setSummary(
-              res.data.summary || ""
-            );
+          setSummary(
+            res.data.summary || ""
+          );
 
-          } catch (err) {
+        } catch (err) {
 
-            console.error(err);
+          console.error(err);
 
-            alert(
-              "Failed to load resume"
-            );
+          alert("Failed to load resume");
 
-          }
+        }
 
-        };
+      };
 
-      fetchResume();
-
-    }
-
-  }, [id]);
-
-
-
-  // If still no data
-
-  if (!form) {
-
-    return (
-
-      <div style={{ padding: 40 }}>
-
-        <h2>No data received</h2>
-
-        <button
-          onClick={() =>
-            navigate("/dashboard")
-          }
-        >
-          Go Back
-        </button>
-
-      </div>
-
-    );
+    fetchResume();
 
   }
 
-
-
-  // ================= PDF EXPORT =================
-
-  const exportPDF = async () => {
-
-    try {
-
-      setPdfloading(true);
-
-      const response =
-        await axios.post(
-
-          "https://ai-resume-builder-backend-u4v2.onrender.com/pdf/export",
-
-          { form, gensummary },
-
-          { responseType: "arraybuffer" }
-
-        );
-
-      const blob =
-        new Blob(
-          [response.data],
-          { type: "application/pdf" }
-        );
-
-      const url =
-        window.URL.createObjectURL(blob);
-
-      const link =
-        document.createElement("a");
-
-      link.href = url;
-
-      link.download =
-        `${form.name || "resume"}.pdf`;
-
-      link.click();
-
-      window.URL.revokeObjectURL(url);
-
-      setPdfloading(false);
-
-    } catch (err) {
-
-      setPdfloading(false);
-
-      console.error(err);
-
-      alert(
-        "PDF Export failed"
-      );
-
-    }
-
-  };
+}, [id]);
 
 
 
-  // 🚀 EDIT FUNCTION
-
-  const handleEdit = () => {
-
-    navigate(`/builder/${form._id}`);
-
-  };
-
-
-
-  // 🚀 DELETE FUNCTION
-
-  const handleDelete =
-    async () => {
-
-      if (!window.confirm(
-        "Delete this resume?"
-      )) return;
-
-      try {
-
-        await api.delete(
-          `/portfolio/${form._id}`
-        );
-
-        alert(
-          "Resume deleted"
-        );
-
-        navigate(
-          "/dashboard"
-        );
-
-      } catch (err) {
-
-        console.error(err);
-
-        alert(
-          "Delete failed"
-        );
-
-      }
-
-    };
-
-
+if (!form) {
 
   return (
 
-  <div
-    style={{
-      width: "794px",
-      minHeight: "1123px",
-      margin: "20px auto",
-      padding: "40px",
-      background: "white",
-      boxShadow:
-        "0 0 10px rgba(0,0,0,0.15)",
-      fontFamily: "Arial",
-    }}
-  >
+    <div style={{ padding: 40 }}>
 
-{/* ================= BUTTON BAR ================= */}
+      <h2>No data received</h2>
 
-<div className="flex justify-between mb-6 items-center">
+      <button
+        onClick={() =>
+          navigate("/dashboard")
+        }
+      >
+        Go Back
+      </button>
 
-  <button
-    onClick={() =>
-      navigate("/dashboard")
-    }
-    className="px-4 py-2 bg-gray-600 text-white rounded-lg"
-  >
-    ⬅ Back
-  </button>
+    </div>
 
-  <div className="flex gap-3">
+  );
 
-    <button
-      onClick={exportPDF}
-      className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-    >
-      {pdfLoading
-        ? "Exporting..."
-        : "📄 Export PDF"}
-    </button>
+}
 
-  </div>
+
+
+/* ================= SECTION CHECKERS ================= */
+
+const hasExperience =
+  form.experience?.some(
+    e => e.role || e.company
+  );
+
+const hasProjects =
+  form.projects?.some(
+    p => p.name
+  );
+
+const hasCertificates =
+  form.certificates?.some(
+    c => c.title
+  );
+
+const hasSkills =
+  form.skills?.some(
+    s => s
+  );
+
+const hasLanguages =
+  form.languages?.some(
+    l => l.language
+  );
+
+const hasAdditional =
+  hasLanguages ||
+  form.nationality ||
+  form.availabilityType;
+
+
+
+/* ================= EXPORT PDF ================= */
+
+const exportPDF = async () => {
+
+  try {
+
+    setPdfloading(true);
+
+    const response =
+      await axios.post(
+
+        "https://ai-resume-builder-backend-u4v2.onrender.com/pdf/export",
+
+        { form, gensummary },
+
+        { responseType: "arraybuffer" }
+
+      );
+
+    const blob =
+      new Blob(
+        [response.data],
+        { type: "application/pdf" }
+      );
+
+    const url =
+      window.URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      `${form.name || "resume"}.pdf`;
+
+    link.click();
+
+    window.URL.revokeObjectURL(url);
+
+  } catch (err) {
+
+    console.error(err);
+    alert("PDF Export failed");
+
+  } finally {
+
+    setPdfloading(false);
+
+  }
+
+};
+
+
+
+/* ================= PERSONAL INFO ================= */
+
+const personalInfo = [
+
+  `${form.city || ""}${
+    form.state ? ", " + form.state : ""
+  }${
+    form.pincode ? ", " + form.pincode : ""
+  }`,
+
+  form.emailId,
+  form.phoneNo,
+  form.linkedIn,
+  form.portfolioLink
+
+].filter(Boolean).join(" | ");
+
+
+
+/* ================= RETURN ================= */
+
+return (
+
+<div
+  style={{
+    width: "794px",
+    minHeight: "1123px",
+    margin: "20px auto",
+    padding: "40px",
+    background: "white",
+    boxShadow:
+      "0 0 10px rgba(0,0,0,0.15)",
+    fontFamily: "Arial",
+  }}
+>
+
+{/* ================= BUTTON ================= */}
+
+<div className="flex justify-between mb-6">
+
+<button
+  onClick={() =>
+    navigate("/dashboard")
+  }
+  className="px-4 py-2 bg-gray-600 text-white rounded-lg"
+>
+⬅ Back
+</button>
+
+<button
+  onClick={exportPDF}
+  className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+>
+{pdfLoading
+? "Exporting..."
+: "📄 Export PDF"}
+</button>
 
 </div>
+
 
 
 {/* ================= HEADER ================= */}
 
-<div
-  style={{
-    textAlign: "center",
-    marginBottom: "20px"
-  }}
->
+<div style={{
+textAlign:"center",
+marginBottom:"20px"
+}}>
 
-  <h1
-    style={{
-      margin: 0,
-      fontWeight:"600",
-      fontSize:"20px",
-      color:"#1d59b5"
-    }}
-  >
-    {form.name}
-  </h1>
+<h1 style={{
+margin:0,
+fontWeight:"600",
+fontSize:"20px",
+color:"#1d59b5"
+}}>
+{form.name}
+</h1>
 
-  <h3 style={{ margin: 0 }}>
-    {form.role}
-  </h3>
+<h3>{form.role}</h3>
 
-  <p
-    style={{
-      marginTop:"10px",
-      fontSize:"14px"
-    }}
-  >
-    {form.city},
-    {form.state},
-    {form.pincode}
-    {" | "}
-    {form.emailId}
-    {" | "}
-    {form.phoneNo}
-    {" | "}
-    {form.linkedIn}
-    {" | "}
-    {form.portfolioLink}
-  </p>
+<p style={{
+fontSize:"14px"
+}}>
+{personalInfo}
+</p>
 
 </div>
+
 
 
 {/* ================= SUMMARY ================= */}
@@ -300,123 +273,83 @@ export default function PreviewPage() {
 {gensummary && (
 
 <>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    SUMMARY
-  </h2>
 
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
+<h2 style={{
+fontWeight:"600",
+color:"#1d59b5",
+fontSize:"16px"
+}}>
+SUMMARY
+</h2>
 
-  <p>{gensummary}</p>
+<hr/>
+
+<p>{gensummary}</p>
+
 </>
 
 )}
+
+
 
 {/* ================= EXPERIENCE ================= */}
 
-{form.experience?.length > 0 && (
+{hasExperience && (
 
 <>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    EXPERIENCE
-  </h2>
 
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
+<h2>EXPERIENCE</h2>
+<hr/>
 
-  {form.experience
-    .filter(exp => exp.role || exp.company)
-    .map((exp,index)=>(
-      <div
-        key={index}
-        style={{
-          marginBottom:"12px"
-        }}
-      >
+{form.experience
+.filter(e => e.role || e.company)
+.map((e,i)=>(
+<div key={i}>
 
-        <div
-          style={{
-            display:"flex",
-            justifyContent:"space-between",
-            fontWeight:600
-          }}
-        >
+<strong>
+{e.role}
+</strong>
 
-          <span>
-            {exp.role}
-          </span>
+<span style={{
+float:"right"
+}}>
+{e.duration} Year
+</span>
 
-          <span>
-            {exp.duration} Year
-          </span>
+<div>
+{e.company}
+</div>
 
-        </div>
+{e.activities &&
+<p>{e.activities}</p>}
 
-        <div>
-          {exp.company}
-        </div>
-
-        {exp.activities && (
-          <p>{exp.activities}</p>
-        )}
-
-      </div>
-    ))}
+</div>
+))}
 
 </>
 
 )}
+
+
 
 {/* ================= SKILLS ================= */}
 
-{form.skills?.length > 0 && (
+{hasSkills && (
 
 <>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    SKILLS
-  </h2>
 
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
+<h2>SKILLS</h2>
+<hr/>
 
-  <p>
-    {form.skills.join(", ")}
-  </p>
+<p>
+{form.skills
+.filter(Boolean)
+.join(", ")}
+</p>
 
 </>
 
 )}
-
 
 
 
@@ -425,290 +358,174 @@ export default function PreviewPage() {
 {form.education?.length > 0 && (
 
 <>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    EDUCATION
-  </h2>
 
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
+<h2>EDUCATION</h2>
+<hr/>
 
-  {form.education.map(
-    (edu,index)=>(
-      <div
-        key={index}
-        style={{
-          marginBottom:"12px"
-        }}
-      >
+{form.education.map((e,i)=>(
+<div key={i}>
 
-        <div
-          style={{
-            display:"flex",
-            justifyContent:"space-between",
-            fontWeight:600
-          }}
-        >
+<strong>
+{e.institute}
+</strong>
 
-          <span>
-            {edu.institute}
-          </span>
+<span style={{
+float:"right"
+}}>
+{e.startYear}
+{" - "}
+{e.endYear}
+</span>
 
-          <span>
-            {edu.startYear}
-            {" - "}
-            {edu.endYear}
-          </span>
+<div>
 
-        </div>
+{e.eduType}
 
-        <div style={{
-            display:"flex",
-            justifyContent:"space-between"
-          }}>
-         <div>
-          {edu.eduType}
-          {" "}
-          {edu.department}
+{e.department &&
+` — ${e.department}`}
 
-          </div>
+{e.score &&
+` — ${e.scoreType}: ${e.score}`}
 
-        {/* ✅ CGPA Display */}
-          <div>
-        {edu.score && (
+</div>
 
-          <div>
-
-            {edu.scoreType}: {edu.score}
-
-          </div>
-
-        )}
-        </div>
-        </div>
-
-      </div>
-    )
-  )}
+</div>
+))}
 
 </>
 
 )}
 
-{/* ================= CERTIFICATES ================= */}
 
-{form.certificates?.length > 0 && (
-
-<>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    CERTIFICATES
-  </h2>
-
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
-
-  {form.certificates
-    .filter(c => c.title)
-    .map((c,index)=>(
-      <div
-        key={index}
-        style={{
-          marginBottom:"10px"
-        }}
-      >
-
-        <div
-          style={{
-            display:"flex",
-            justifyContent:"space-between",
-            fontWeight:600
-          }}
-        >
-
-          <span>
-            {c.title}
-          </span>
-
-          <span>
-            {c.issuedOn}
-          </span>
-
-        </div>
-
-        <div>
-          {c.issuedBy}
-        </div>
-
-      </div>
-    ))}
-
-</>
-
-)}
 
 {/* ================= PROJECTS ================= */}
 
-{form.projects?.length > 0 && (
+{hasProjects && (
 
 <>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    PROJECTS
-  </h2>
 
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
+<h2>PROJECTS</h2>
+<hr/>
 
-  {form.projects
-    .filter(p => p.name)
-    .map((p,index)=>(
-      <div
-        key={index}
-        style={{
-          marginBottom:"12px"
-        }}
-      >
+{form.projects
+.filter(p => p.name)
+.map((p,i)=>(
+<div key={i}>
 
-        <div
-          style={{
-            display:"flex",
-            justifyContent:"space-between",
-            fontWeight:600
-          }}
-        >
+<strong>
+{p.name}
+</strong>
 
-          <span>
-            {p.name}
-          </span>
+{p.description &&
+<p>{p.description}</p>}
 
-          {p.link && (
-            <a
-              href={p.link}
-              target="_blank"
-            >
-              Live Demo
-            </a>
-          )}
+{p.technologies &&
+<p>
+<strong>Tech Used:</strong>
+{" "}
+{p.technologies}
+</p>}
 
-        </div>
-
-        {p.description && (
-          <p>{p.description}</p>
-        )}
-
-        {p.technologies && (
-          <p>
-            <strong>Tech Used:</strong>{" "}
-            {p.technologies}
-          </p>
-        )}
-
-      </div>
-    ))}
+</div>
+))}
 
 </>
 
 )}
+
+
+
+{/* ================= CERTIFICATES ================= */}
+
+{hasCertificates && (
+
+<>
+
+<h2>CERTIFICATES</h2>
+<hr/>
+
+{form.certificates
+.filter(c => c.title)
+.map((c,i)=>(
+<div key={i}>
+
+<strong>
+{c.title}
+</strong>
+
+<span style={{
+float:"right"
+}}>
+{c.issuedOn}
+</span>
+
+<div>
+{c.issuedBy}
+</div>
+
+</div>
+))}
+
+</>
+
+)}
+
+
 
 {/* ================= ADDITIONAL ================= */}
 
-{(form.languages?.length > 0 ||
-  form.nationality ||
-  form.availabilityType) && (
+{hasAdditional && (
 
 <>
-  <h2
-    style={{
-      fontWeight:"600",
-      color:"#1d59b5",
-      fontSize:"16px"
-    }}
-  >
-    ADDITIONAL INFORMATION
-  </h2>
 
-  <hr
-    style={{
-      border:"1px solid",
-      marginBottom:"10px"
-    }}
-  />
+<h2>ADDITIONAL INFORMATION</h2>
+<hr/>
 
-  {/* Languages */}
+{hasLanguages && (
 
-  {form.languages?.length > 0 && (
+<div>
 
-    <div>
+<strong>Languages:</strong>{" "}
 
-      <strong>Languages:</strong>{" "}
+{form.languages
+.filter(l => l.language)
+.map(l => {
 
-      {form.languages
-        .filter(l => l.language)
-        .map((l,index)=>{
+const levels=[];
 
-          const levels=[];
+if(l.read) levels.push("Read");
+if(l.write) levels.push("Write");
+if(l.speak) levels.push("Speak");
 
-          if(l.read) levels.push("Read");
-          if(l.write) levels.push("Write");
-          if(l.speak) levels.push("Speak");
+return `${l.language} (${levels.join(", ")})`;
 
-          return `${l.language} (${levels.join(", ")})`;
+})
+.join(", ")}
 
-        })
-        .join(", ")}
+</div>
 
-    </div>
+)}
 
-  )}
+{form.nationality &&
+<div>
+<strong>Nationality:</strong>
+{" "}
+{form.nationality}
+</div>}
 
-  {form.nationality && (
-    <div>
-      <strong>Nationality:</strong>{" "}
-      {form.nationality}
-    </div>
-  )}
-
-  {form.availabilityType && (
-    <div>
-      <strong>Availability:</strong>{" "}
-      {form.availabilityType}
-    </div>
-  )}
+{form.availabilityType &&
+<div>
+<strong>Availability:</strong>
+{" "}
+{form.availabilityType}
+</div>}
 
 </>
 
 )}
-
 
 </div>
 
 );
+
 }

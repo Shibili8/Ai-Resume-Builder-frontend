@@ -126,17 +126,6 @@ const AdditionalInfoSection = ({ form, updateArrayField, addRow, setScalar }) =>
         )}
       </div>
 
-      {/* ---------------------- OTHER NOTES ---------------------- */}
-      <div className="bg-gray-50 border rounded-lg p-4">
-        <h4 className="font-semibold text-gray-800 mb-2">Other Additional Information</h4>
-
-        <textarea
-          placeholder="Any additional details (optional)"
-          value={form.additionalNotes}
-          onChange={(e) => setScalar("additionalNotes", e.target.value)}
-          className="border rounded-md px-3 py-2 text-sm w-full h-24"
-        />
-      </div>
     </section>
   );
 };
