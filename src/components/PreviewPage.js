@@ -326,7 +326,7 @@ export default function PreviewPage() {
 
 {form.experience?.length > 0 && (
 
-<>
+<div>
   <h2
     style={{
       fontWeight:"600",
@@ -383,7 +383,7 @@ export default function PreviewPage() {
       </div>
     ))}
 
-</>
+</div>
 
 )}
 
