@@ -633,6 +633,7 @@ form.education.forEach((edu, i) => {
 
     alert(
       err.response?.data?.error ||
+      err.message ||
       "Save failed"
     );
 
