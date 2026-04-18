@@ -31,6 +31,7 @@ const ExperienceSection = ({ experience, updateArrayField, addRow }) => (
             />
             <Input
               label="Duration"
+              type="number"
               placeholder="in Years"
               value={ex.duration}
               required
