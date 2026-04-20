@@ -130,56 +130,55 @@ const handleDelete = async (id) => {
 
         ) : (
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            {data.map((p) => (
+          {data.map((p)=>(
 
-              <div
-                key={p._id}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-200 cursor-pointer hover:shadow-lg transition"
-                onClick={() => handlePreview(p._id)}
-              >
+          <div
+          key={p._id}
+          className="glass-card p-6 rounded-2xl shadow-lg hover:scale-[1.02] transition cursor-pointer"
+          onClick={()=>handlePreview(p._id)}
+          >
 
-                <h3 className="text-xl font-bold">
-                  {p.name || "Untitled Resume"}
-                </h3>
+          <h3 className="text-lg font-bold text-blue-700">
+          {p.name || "Untitled Resume"}
+          </h3>
 
-                <p className="text-gray-600 mt-2">
-                  Created:
-                  {p.createdAt
-                    ? new Date(p.createdAt).toLocaleDateString()
-                    : "N/A"}
-                </p>
+          <p className="text-gray-500 mt-2 text-sm">
+          📅 Created:
+          {" "}
+          {p.createdAt
+          ? new Date(p.createdAt).toLocaleDateString()
+          : "N/A"}
+          </p>
 
-                {/* Buttons */}
+          <div className="flex gap-2 mt-4">
 
-                <div className="flex gap-3 mt-4">
+          <button
+          onClick={(e)=>{
+          e.stopPropagation();
+          handleEdit(p._id);
+          }}
+          className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm"
+          >
+          Edit
+          </button>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEdit(p._id);
-                    }}
-                    className="px-3 py-1 bg-blue-500 text-white rounded"
-                  >
-                    Edit
-                  </button>
+          <button
+          onClick={(e)=>{
+          e.stopPropagation();
+          handleDelete(p._id);
+          }}
+          className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm"
+          >
+          Delete
+          </button>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(p._id);
-                    }}
-                    className="px-3 py-1 bg-red-500 text-white rounded"
-                  >
-                    Delete
-                  </button>
+          </div>
 
-                </div>
+          </div>
 
-              </div>
-
-            ))}
+          ))}
 
           </div>
 

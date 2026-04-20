@@ -20,28 +20,54 @@ export default function Home() {
     <Navbar/>
     
     
-      <div className="min-w-3xl flex flex-col min-h-screen items-center justify-center mx-auto space-y-6">
-        <div className="bg-white w-1/2 h-1/3  p-6 rounded-xl shadow-md hover:bg-blue-100">
-          <h2 className="text-xl font-bold">Create Resume</h2>
-          <p className="text-gray-600">Generate your AI-powered resume.</p>
-          <button
-            className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg"
-            onClick={() => navigate("/builder")}
-          >
+      <div className="flex flex-col items-center justify-center min-h-screen gap-8">
+
+        <h1 className="text-4xl font-bold text-blue-700">
+        Build Your Professional Resume with AI ✨
+        </h1>
+
+        <div className="grid md:grid-cols-2 gap-8">
+
+          <div className="glass-card p-8 rounded-2xl shadow-lg w-80">
+
+            <h2 className="text-xl font-semibold mb-2">
+            📄 Create Resume
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+            Generate a smart AI-powered resume.
+            </p>
+
+            <button
+            className="btn-primary text-white px-5 py-2 rounded-xl"
+            onClick={()=>navigate("/builder")}
+            >
             Create Resume
-          </button>
+            </button>
+
+          </div>
+
+          <div className="glass-card p-8 rounded-2xl shadow-lg w-80">
+
+            <h2 className="text-xl font-semibold mb-2">
+            📊 Dashboard
+            </h2>
+
+            <p className="text-gray-600 mb-4">
+            Manage saved resumes.
+            </p>
+
+            <button
+            className="bg-gray-800 hover:bg-black text-white px-5 py-2 rounded-xl"
+            onClick={()=>navigate("/dashboard")}
+            >
+            Open Dashboard
+            </button>
+
+          </div>
+
         </div>
 
-        <div className="bg-white w-1/2 h-1/3 p-6 rounded-xl shadow-md hover:bg-blue-100">
-          <h2 className="text-xl font-bold">Dashboard</h2>
-          <p className="text-gray-600">View your saved resumes.</p>
-          <button
-            className="mt-3 bg-gray-700 text-white px-4 py-2 rounded-lg"
-            onClick={() => navigate("/dashboard")}
-          >
-            Go to Dashboard
-          </button>
-        </div>
       </div>
     
     </>

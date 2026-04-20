@@ -6,10 +6,14 @@
 
 
 body {
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f8f9fb;
+  background: linear-gradient(
+    135deg,
+    #eef2ff,
+    #f8fafc
+  );
 }
 
 .container {
@@ -45,7 +49,7 @@ button {
   background: #111;
   color: #fff;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
 button:hover {
@@ -91,4 +95,24 @@ button:hover {
   text-decoration: underline;
   padding: 0;
   font: inherit;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+/* Gradient Button */
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
 }

@@ -58,73 +58,67 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
 
-      <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
+<div className="flex items-center justify-center min-h-screen">
 
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Login
-        </h2>
+  <div className="glass-card w-full max-w-md shadow-xl rounded-2xl p-8">
 
-        {/* Email Input */}
-        <input
-          className="w-full p-3 border rounded-lg mb-3"
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">
+      Welcome Back 👋
+    </h2>
 
-        {/* Password Input with Toggle */}
-        <div className="relative mb-4">
+    <input
+      className="w-full p-3 border rounded-xl mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+      placeholder="Email"
+      type="email"
+      value={email}
+      onChange={(e)=>setEmail(e.target.value)}
+    />
 
-          <input
-            className="w-full p-3 border rounded-lg"
-            placeholder="Password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+    <div className="relative mb-4">
 
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-3 text-sm text-blue-600 bg-transparent hover:bg-transparent focus:outline-none select-none"
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
+      <input
+        className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+        placeholder="Password"
+        type={showPassword?"text":"password"}
+        value={password}
+        onChange={(e)=>setPassword(e.target.value)}
+      />
 
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <p className="text-red-500 text-sm mb-3 text-center">
-            {error}
-          </p>
-        )}
-
-        {/* Login Button */}
-        <button
-          onClick={submit}
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-
-        {/* Register Link */}
-        <p className="text-center mt-4 text-gray-600">
-          Don’t have an account?{" "}
-          <Link
-            to="/register"
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Sign Up
-          </Link>
-        </p>
-
-      </div>
+      <button
+        type="button"
+        onClick={()=>setShowPassword(!showPassword)}
+        className="absolute right-3 top-3 text-blue-600"
+      >
+        {showPassword?<EyeOff size={18}/>:<Eye size={18}/>}
+      </button>
 
     </div>
-  );
+
+    {error && (
+      <p className="text-red-500 text-sm mb-3 text-center">
+        {error}
+      </p>
+    )}
+
+    <button
+      onClick={submit}
+      disabled={loading}
+      className="w-full btn-primary text-white py-3 rounded-xl font-medium shadow-md"
+    >
+      {loading?"Logging in...":"Login"}
+    </button>
+
+    <p className="text-center mt-5 text-gray-600">
+      Don’t have an account?{" "}
+      <Link to="/register" className="text-blue-600 font-semibold">
+        Sign Up
+      </Link>
+    </p>
+
+  </div>
+
+</div>
+
+);
 }

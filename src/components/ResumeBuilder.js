@@ -294,7 +294,7 @@ Write a professional resume summary for a ${form.role || "professional"} with ${
       err.message
     );
 
-    alert("AI generation failed");
+    alert("AI generation failed, Retry it");
 
   } finally {
 
@@ -652,17 +652,20 @@ form.education.forEach((edu, i) => {
     <>
       <Navbar />
 
-      <div className="max-w-5xl mx-auto my-8 px-4">
-        <div className="bg-white border border-gray-100 shadow-sm rounded-xl p-6 md:p-8">
-          <header className="flex items-center justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-900">
-                AI Resume Builder
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
-                Fill your details, generate an AI summary, preview & export.
-              </p>
-            </div>
+      <div className="max-w-5xl mx-auto my-10 px-4">
+
+        <div className="glass-card shadow-xl rounded-2xl p-8">
+
+          <header className="mb-6">
+
+            <h2 className="text-3xl font-bold text-blue-700">
+            AI Resume Builder
+            </h2>
+
+            <p className="text-gray-500">
+            Fill details → Generate summary → Preview → Export
+            </p>
+
           </header>
 
           {/* Sections */}
