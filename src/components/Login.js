@@ -88,7 +88,7 @@ export default function Login() {
       <button
         type="button"
         onClick={()=>setShowPassword(!showPassword)}
-        className="absolute right-3 top-3 text-blue-600"
+        className="absolute right-3 top-3 bg-white text-blue-600"
       >
         {showPassword?<EyeOff size={18}/>:<Eye size={18}/>}
       </button>
