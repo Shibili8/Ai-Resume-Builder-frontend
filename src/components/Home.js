@@ -54,7 +54,7 @@ export default function Home() {
             </h2>
 
             <p className="text-gray-600 mb-4">
-            Manage saved resumes.
+            Manage and edit your saved resumes.
             </p>
 
             <button
