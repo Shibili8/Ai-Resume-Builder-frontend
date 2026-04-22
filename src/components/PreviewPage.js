@@ -54,6 +54,7 @@ export default function PreviewPage() {
         setSummary(
           res.data.summary || ""
         );
+        setLoading(false);
 
       } catch (err) {
 
