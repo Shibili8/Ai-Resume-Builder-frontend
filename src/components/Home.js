@@ -23,7 +23,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen gap-8">
 
         <h1 className="text-4xl font-bold text-blue-700">
-        Build Your Professional Resume with AI ✨
+        Build Your Professional Resume with AI
         </h1>
 
         <div className="grid md:grid-cols-2 gap-8">

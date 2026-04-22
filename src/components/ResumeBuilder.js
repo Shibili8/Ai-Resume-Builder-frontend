@@ -801,7 +801,7 @@ form.education.forEach((edu, i) => {
                     const summary = await generateSummary();
                     setSummary(summary.replace(/\*/g, ""));
                   } catch (err) {
-                    alert("Summary generation failed.");
+                    console.log("Summary generation failed.");
                   } finally {
                     setSummaryLoading(false);
                   }
