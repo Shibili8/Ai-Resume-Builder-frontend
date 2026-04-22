@@ -206,13 +206,41 @@ const handleChange = (section, index, field, value) => {
   // AI SUMMARY
   // ----------------------------------------------------------------
   const buildPrompt = () => {
-    const skillsText = form.skills.filter(Boolean).join(", ") || "N/A";
-    return `
-Write a professional resume summary for a ${form.role || "professional"} with ${
-      form.totalExperienceYear || 0
-    } year(s) of experience. If years of experience is 0, treat them as a fresher. Highlight these skills: ${skillsText}. Keep it concise (<= 100 words), ATS-friendly, and recruiter focused.
+
+  const skillsText =
+    form.skills
+      .filter(Boolean)
+      .join(", ") || "N/A";
+
+  return `
+Write a professional resume summary for a ${
+  form.role || "professional"
+} with ${
+  form.totalExperienceYear || 0
+} year(s) of experience.
+
+If years of experience is 0, treat them as a fresher.
+
+Highlight these skills:
+${skillsText}.
+
+IMPORTANT RULES:
+- Return ONLY the summary paragraph.
+- Do NOT include any headings.
+- Do NOT write words like:
+  "Professional Summary"
+  "Resume Summary"
+  "Optimized Resume"
+  "Summary"
+- Do NOT use bullet points.
+- Write in a single paragraph.
+- Maximum 100 words.
+- Make it ATS-friendly and recruiter-focused.
+
+Output only the paragraph text.
 `.trim();
-  };
+
+};
 
   const generateSummary = async () => {
 
@@ -245,10 +273,18 @@ Write a professional resume summary for a ${form.role || "professional"} with ${
       res.data?.data ??
       "";
 
-    console.log(
-      "Generated Summary:",
-      summary
-    );
+    const summary =
+  res.data?.summary ?? "";
+
+const cleanedSummary =
+  summary
+    .replace(
+      /^(professional summary|resume summary|summary)\s*:?\s*/i,
+      ""
+    )
+    .trim();
+
+setSummary(cleanedSummary);
 
     setSummary(summary);
 
