@@ -20,7 +20,7 @@ export default function PreviewPage() {
   const [form, setForm] = useState(
     state?.form || null
   );
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(!form);
 
   const [gensummary, setSummary] =
     useState(
@@ -77,11 +77,12 @@ export default function PreviewPage() {
 
   }
 
-}, [id]);
+}, [id, form]);
 
 
 
   // If still no data
+  
 
   if (loading) {
 
@@ -104,6 +105,34 @@ export default function PreviewPage() {
         <p className="text-gray-500 mt-2 text-sm">
           Please wait while we load your data
         </p>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+if (!form) {
+
+  return (
+
+    <div className="flex items-center justify-center min-h-screen">
+
+      <div className="text-center">
+
+        <h2 className="text-lg font-semibold text-gray-700">
+          Resume not found
+        </h2>
+
+        <button
+          onClick={() =>
+            navigate("/dashboard")
+          }
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
+        >
+          Back to Dashboard
+        </button>
 
       </div>
 
