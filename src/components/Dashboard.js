@@ -82,7 +82,7 @@ export default function Dashboard() {
         {/* Text */}
 
         <h2 className="text-xl font-semibold text-gray-700">
-          Preparing your resume...
+          Preparing your dashboard...
         </h2>
 
         <p className="text-gray-500 mt-2 text-sm">
