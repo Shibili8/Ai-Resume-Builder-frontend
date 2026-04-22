@@ -106,7 +106,7 @@ export default function Login() {
       disabled={loading}
       className="w-full btn-primary text-white py-3 rounded-xl font-medium shadow-md"
     >
-      {loading?"Logging in...":"Login"}
+      {loading?"Loggin...":"Login"}
     </button>
 
     <p className="text-center mt-5 text-gray-600">
