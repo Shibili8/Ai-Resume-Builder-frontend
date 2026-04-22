@@ -272,10 +272,6 @@ Output only the paragraph text.
       res.data?.result ??
       res.data?.data ??
       "";
-
-    const summary =
-  res.data?.summary ?? "";
-
 const cleanedSummary =
   summary
     .replace(
