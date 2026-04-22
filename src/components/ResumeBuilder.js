@@ -272,17 +272,10 @@ Output only the paragraph text.
       res.data?.result ??
       res.data?.data ??
       "";
-const cleanedSummary =
-  summary
-    .replace(
-      /^(professional summary|resume summary|summary)\s*:?\s*/i,
-      ""
-    )
-    .trim();
+const cleanedSummary = summary.replace(/^(professional summary|resume summary|summary)\s*:?\s*/i,"").trim();
 
 setSummary(cleanedSummary);
 
-    setSummary(summary);
 
     // Save inside form also
     setForm(prev => ({
