@@ -71,9 +71,27 @@ export default function Dashboard() {
       <>
         <Navbar />
 
-        <p className="text-center text-gray-600 mt-10">
-          Loading...
+    <div className="flex items-center justify-center min-h-screen">
+
+      <div className="text-center">
+
+        {/* Spinner */}
+
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+
+        {/* Text */}
+
+        <h2 className="text-xl font-semibold text-gray-700">
+          Preparing your resume...
+        </h2>
+
+        <p className="text-gray-500 mt-2 text-sm">
+          Please wait while we load your data
         </p>
+
+      </div>
+
+    </div>
 
       </>
 
