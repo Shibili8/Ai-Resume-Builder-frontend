@@ -14,12 +14,13 @@ export default function PreviewPage() {
   const navigate = useNavigate();
 
   const { state } = useLocation();
-  const [loading, setLoading] = useState(!form);
+  
   const { id } = useParams();
 
   const [form, setForm] = useState(
     state?.form || null
   );
+  const [loading, setLoading] = useState(false);
 
   const [gensummary, setSummary] =
     useState(
