@@ -14,7 +14,7 @@ export default function PreviewPage() {
   const navigate = useNavigate();
 
   const { state } = useLocation();
-
+  const [loading, setLoading] = useState(!form);
   const { id } = useParams();
 
   const [form, setForm] = useState(
@@ -36,67 +36,80 @@ export default function PreviewPage() {
 
   useEffect(() => {
 
-    if (!form && id) {
+  if (!form && id) {
 
-      const fetchResume =
-        async () => {
+    const fetchResume = async () => {
 
-          try {
+      try {
 
-            const res =
-              await api.get(
-                `/portfolio/${id}`
-              );
+        setLoading(true);
 
-            setForm(res.data);
+        const res =
+          await api.get(
+            `/portfolio/${id}`
+          );
 
-            setSummary(
-              res.data.summary || ""
-            );
+        setForm(res.data);
 
-          } catch (err) {
+        setSummary(
+          res.data.summary || ""
+        );
 
-            console.error(err);
+      } catch (err) {
 
-            alert(
-              "Failed to load resume"
-            );
+        console.error(err);
 
-          }
+        alert(
+          "Failed to load resume"
+        );
 
-        };
+      } finally {
 
-      fetchResume();
+        setLoading(false);
 
-    }
+      }
 
-  }, [id]);
+    };
+
+    fetchResume();
+
+  }
+
+}, [id]);
 
 
 
   // If still no data
 
-  if (!form) {
+  if (loading) {
 
-    return (
+  return (
 
-      <div style={{ padding: 40 }}>
+    <div className="flex items-center justify-center min-h-screen">
 
-        <h2>No data received</h2>
+      <div className="text-center">
 
-        <button
-          onClick={() =>
-            navigate("/dashboard")
-          }
-        >
-          Go Back
-        </button>
+        {/* Spinner */}
+
+        <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+
+        {/* Text */}
+
+        <h2 className="text-xl font-semibold text-gray-700">
+          Preparing your resume...
+        </h2>
+
+        <p className="text-gray-500 mt-2 text-sm">
+          Please wait while we load your data
+        </p>
 
       </div>
 
-    );
+    </div>
 
-  }
+  );
+
+}
 
   /* ================= SECTION CHECKERS ================= */
 
